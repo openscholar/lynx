@@ -34,6 +34,7 @@ class SearchLynxForm extends FormBase {
       '#value' => $this->t('Search'),
       '#button_type' => 'primary',
     ];
+    $form['#attached']['library'][] = 'lynx/lynx_search';
     return $form;
   }
 
