@@ -1,0 +1,4 @@
+services:
+  lynx.query_helper:
+    class: Drupal\lynx\Helper\QueryHelper
+    arguments: ['@elasticsearch_connector.cluster_manager', '@elasticsearch_connector.client_manager']

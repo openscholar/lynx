@@ -1,0 +1,10 @@
+lynx.index_admin:
+  path: 'admin/lynx/indices'
+  defaults:
+    _form: '\Drupal\lynx\Form\LynxIndicesForm'
+    _title: 'Manage Indices'
+  requirements:
+    _permission: 'manage lynx indices'
+
+route_callbacks:
+  - '\Drupal\lynx\Routing\SearchLynxRoutes::routes'
