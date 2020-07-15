@@ -1,0 +1,8 @@
+name: 'OS Search Lynx'
+description: 'Os feature to search across os installs'
+type: module
+core: 8.x
+core_version_requirement: ^8
+dependencies:
+  - "drupal:vsite"
+  - "drupal:elasticsearch_connector"

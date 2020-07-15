@@ -1,0 +1,4 @@
+lynx.index_admin:
+  title: 'Manage Lynx Search Indices'
+  route_name: lynx.index_admin
+  parent: system.admin_config_search

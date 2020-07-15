@@ -1,0 +1,4 @@
+lynx_search:
+  css:
+    component:
+      css/lynx_search.css: { }
