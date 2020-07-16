@@ -94,7 +94,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       $result[] = [
         'title' => current($row['_source']['custom_title']),
         'body' => current($row['_source']['body']),
-        'url' => $base_url . '/' . $url,
+        'url' => $base_url . $url,
         'base_url' => $base_url,
       ];
     }
