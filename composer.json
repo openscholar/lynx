@@ -1,0 +1,14 @@
+{
+  "name": "drupal/lynx",
+  "type": "osops-module",
+  "description": "Os Lynx Search",
+  "authors": [
+    {
+      "name": "OS Team",
+      "email": "team@theopenscholar.com"
+    }
+  ],
+  "require": {
+    "drupal/elasticsearch_connector": "^7.0@alpha"
+  }
+}
