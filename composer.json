@@ -9,6 +9,7 @@
     }
   ],
   "require": {
+    "composer/installers": "~1.0",
     "drupal/elasticsearch_connector": "^7.0@alpha"
   }
 }
