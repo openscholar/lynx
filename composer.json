@@ -1,6 +1,6 @@
 {
   "name": "drupal/lynx",
-  "type": "osops-module",
+  "type": "drupal-module",
   "description": "Os Lynx Search",
   "authors": [
     {
