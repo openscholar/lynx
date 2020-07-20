@@ -91,11 +91,14 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       $raw_url = explode(':', $row['_id'])[1];
       $url_params = explode('/', $raw_url);
       $url = Url::fromRoute('entity.' . $url_params[0] . '.canonical', [$url_params[0] => $url_params[1]])->toString();
+      $vsite_url = Url::fromRoute('entity.group.canonical', ['group' => current($row['_source']['custom_search_group'])])->toString();
       $result[] = [
         'title' => current($row['_source']['custom_title']),
         'body' => current($row['_source']['body']),
         'url' => $base_url . $url,
-        'base_url' => $base_url,
+        'vsite_name' => current($row['_source']['vsite_name']),
+        'vsite_logo' => current($row['_source']['vsite_logo']),
+        'vsite_url' => $base_url . $vsite_url,
       ];
     }
 
@@ -117,17 +120,20 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    */
   protected function createRenderArray(array $result) {
     $items = [];
-    foreach ($result as $row) {
-      $items[] = [
+    foreach ($result as $id => $row) {
+
+      $items[$id] = [
+        'vsite_name' => [
+          '#type' => 'link',
+          '#url' => Url::fromUri($row['vsite_url'], ['absolute' => TRUE]),
+          '#title' => $row['vsite_name'],
+        ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
           '#type' => 'link',
           '#url' => Url::fromUri($row['url'], ['absolute' => TRUE]),
           '#title' => $row['title'],
           '#suffix' => '</h2>',
-        ],
-        'site_url' => [
-          '#markup' => '<p>' . $row['base_url'] . '</p>',
         ],
         'body' => [
           '#markup' => '<div>' . Unicode::truncate($row['body'], 128, TRUE, TRUE) . '</div>',
@@ -138,6 +144,18 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#title' => $this->t('Read more'),
         ],
       ];
+      if ($row['vsite_logo']) {
+        $image = [
+          '#theme' => 'image',
+          '#uri' => $row['vsite_logo'],
+          '#alt' => $row['vsite_name'],
+        ];
+        $items[$id]['vsite_logo'] = [
+          '#type' => 'link',
+          '#url' => Url::fromUri($row['vsite_url'], ['absolute' => TRUE]),
+          '#title' => $image,
+        ];
+      }
     }
 
     $build['search_results'] = [
