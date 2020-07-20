@@ -76,7 +76,7 @@ class QueryHelper implements QueryHelperInterface {
       }
       $query['query']['bool']['filter'] = $filter_values;
     }
-    $query['_source'] = ['custom_title', 'body'];
+    $query['_source'] = ['custom_title', 'body', 'vsite_logo', 'vsite_name', 'custom_search_group'];
     $query['from'] = $params['from'];
     $query['size'] = $params['size'];
     return $query;
