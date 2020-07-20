@@ -37,10 +37,6 @@
   word-break: break-all;
 }
 
-ul.lynx-search-listing .node--title a {
-  color: #1e1e1e;
-  font-weight: bold;
-}
 
 .lynx-search-listing li div {
   margin-bottom: 0.5em;
