@@ -18,19 +18,60 @@
   padding: 0;
   margin: 0;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .lynx-search-listing li {
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 15px;
   padding-bottom: 15px;
+  flex: 1 1 100%;
+  padding: 10px 25px;
+  border-radius: 10px;
+  box-shadow: 7px 5px 6px #d4d4d5, 0 0 0 1px #d4d4d5;
+  margin-bottom: 25px;
 }
 
 .lynx-search-listing li p {
   font-size: 12px;
   margin-bottom: 0.5em;
+  word-break: break-all;
+}
+
+ul.lynx-search-listing .node--title a {
+  color: #1e1e1e;
+  font-weight: bold;
 }
 
 .lynx-search-listing li div {
   margin-bottom: 0.5em;
+}
+
+a.lynx-title {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 5px 0;
+  display: inline-block;
+  color: #1e1e1e;
+}
+
+a.lynx-title:visited,
+a.lynx-title:hover {
+  color: #1e1e1e;
+}
+
+@media (min-width: 768px) {
+  .lynx-search-listing li {
+    flex: 0 0 31%;
+    margin-right: 25px;
+  }
+
+  .lynx-search-listing li:nth-child(3n) {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .lynx-search-listing li {
+    margin-right: 35px;
+  }
 }
