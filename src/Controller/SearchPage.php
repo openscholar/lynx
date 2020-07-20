@@ -91,7 +91,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       $raw_url = explode(':', $row['_id'])[1];
       $url_params = explode('/', $raw_url);
       $url = Url::fromRoute('entity.' . $url_params[0] . '.canonical', [$url_params[0] => $url_params[1]])->toString();
-      $vsite_url = Url::fromRoute('entity.group.canonical', ['group' => current($row['_source']['custom_search_group'])])->toString();
+      $vsite_url = '/group/' . current($row['_source']['custom_search_group']);
       $result[] = [
         'title' => current($row['_source']['custom_title']),
         'body' => current($row['_source']['body']),
