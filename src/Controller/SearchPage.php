@@ -69,7 +69,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
 
     // Build Search Result.
     $page = pager_find_page();
-    $num_per_page = 10;
+    $num_per_page = 9;
     $from = $page * $num_per_page;
     $indices = $this->queryHelper->getAllowedIndices();
     $indices_str = implode(',', array_keys($indices));
