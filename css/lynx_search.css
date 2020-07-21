@@ -42,17 +42,31 @@
   margin-bottom: 0.5em;
 }
 
+
+.lynx-search-listing li img {
+  width: 90px;
+  float: left;
+  margin-right: 15px;
+  margin-bottom: 20px;
+}
+
 a.lynx-title {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: bold;
   margin: 5px 0;
-  display: inline-block;
+  display: inline;
   color: #1e1e1e;
 }
 
 a.lynx-title:visited,
 a.lynx-title:hover {
   color: #1e1e1e;
+}
+
+.lynx-search-listing li .node--title {
+  display: block;
+  width: 100%;
+  clear: both;
 }
 
 @media (min-width: 768px) {
