@@ -48,7 +48,7 @@ class QueryHelper implements QueryHelperInterface {
     $indices = [];
     $all_indices = $this->client->indices()->getMapping();
     foreach ($all_indices as $id => $index) {
-      if ($index['mappings']['_meta']['index_type'] != 'private') {
+      if (isset($index['mappings']['_meta']['base_url']) && $index['mappings']['_meta']['index_type'] != 'private') {
         $indices[$id] = $index;
       }
     }
