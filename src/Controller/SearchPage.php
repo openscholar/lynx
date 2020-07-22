@@ -132,8 +132,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
             'class' => 'lynx-title',
           ],
         ],
-        '#markup' => '<div>' . $row['vsite_description'] . '</div>',
-      ],
+        'vsite_description' => [
+          '#markup' => '<div>' . $row['vsite_description'] . '</div>',
+        ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
           '#type' => 'link',
