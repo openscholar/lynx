@@ -133,7 +133,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           ],
         ],
         'vsite_description' => [
-          '#markup' => '<div>' . $row['vsite_description'] . '</div>',
+          '#markup' => '<div class="meta-description">' . $row['vsite_description'] . '</div>',
         ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
