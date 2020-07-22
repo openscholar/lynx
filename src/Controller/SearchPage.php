@@ -99,6 +99,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
         'vsite_name' => current($row['_source']['vsite_name']),
         'vsite_logo' => current($row['_source']['vsite_logo']),
         'vsite_url' => $base_url . $vsite_url,
+        'vsite_description' => current($row['_source']['vsite_description']),
       ];
     }
 
@@ -130,6 +131,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#attributes' => [
             'class' => 'lynx-title',
           ]
+        ],
+        'vsite_description' => [
+          '#markup' => '<div>' . $row['vsite_description'] . '</div>',
         ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
