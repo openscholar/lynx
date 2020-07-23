@@ -48,7 +48,7 @@ class QueryHelper implements QueryHelperInterface {
     $indices = [];
     $all_indices = $this->client->indices()->getMapping();
     foreach ($all_indices as $id => $index) {
-      if ($index['mappings']['_meta']['index_type'] != 'private') {
+      if (isset($index['mappings']['_meta']['base_url']) && $index['mappings']['_meta']['index_type'] != 'private') {
         $indices[$id] = $index;
       }
     }
@@ -76,7 +76,14 @@ class QueryHelper implements QueryHelperInterface {
       }
       $query['query']['bool']['filter'] = $filter_values;
     }
-    $query['_source'] = ['custom_title', 'body', 'vsite_logo', 'vsite_name', 'custom_search_group'];
+    $query['_source'] = [
+      'custom_title',
+      'body',
+      'vsite_logo',
+      'vsite_name',
+      'vsite_description',
+      'custom_search_group',
+    ];
     $query['from'] = $params['from'];
     $query['size'] = $params['size'];
     return $query;

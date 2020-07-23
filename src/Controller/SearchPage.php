@@ -99,6 +99,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
         'vsite_name' => current($row['_source']['vsite_name']),
         'vsite_logo' => current($row['_source']['vsite_logo']),
         'vsite_url' => $base_url . $vsite_url,
+        'vsite_description' => current($row['_source']['vsite_description']),
       ];
     }
 
@@ -129,7 +130,10 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#title' => $row['vsite_name'],
           '#attributes' => [
             'class' => 'lynx-title',
-          ]
+          ],
+        ],
+        'vsite_description' => [
+          '#markup' => '<div class="meta-description">' . $row['vsite_description'] . '</div>',
         ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
@@ -152,13 +156,13 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#theme' => 'image',
           '#uri' => $row['vsite_logo'],
           '#alt' => $row['vsite_name'],
-          '#weight' => -1
+          '#weight' => -1,
         ];
         $items[$id]['vsite_logo'] = [
           '#type' => 'link',
           '#url' => Url::fromUri($row['vsite_url'], ['absolute' => TRUE]),
           '#title' => $image,
-          '#weight' => -2
+          '#weight' => -2,
         ];
       }
     }

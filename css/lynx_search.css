@@ -69,6 +69,10 @@ a.lynx-title:hover {
   clear: both;
 }
 
+.lynx-search-listing .meta-description {
+  color: #4f4f4f;
+}
+
 @media (min-width: 768px) {
   .lynx-search-listing li {
     flex: 0 0 31%;
