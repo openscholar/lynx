@@ -83,6 +83,7 @@ class QueryHelper implements QueryHelperInterface {
       'vsite_name',
       'vsite_description',
       'custom_search_group',
+      'custom_type',
     ];
     $query['from'] = $params['from'];
     $query['size'] = $params['size'];

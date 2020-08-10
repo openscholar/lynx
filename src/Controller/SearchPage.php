@@ -9,6 +9,7 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\lynx\Helper\QueryHelper;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\Unicode;
+use Drupal\vsite\Plugin\AppManagerInterface;
 
 /**
  * Controller for the Lynx search page.
@@ -30,12 +31,20 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
   protected $queryHelper;
 
   /**
+   * App manager.
+   *
+   * @var \Drupal\vsite\Plugin\AppManagerInterface
+   */
+  protected $appManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('form_builder'),
-      $container->get('lynx.query_helper')
+      $container->get('lynx.query_helper'),
+      $container->get('vsite.app.manager')
     );
   }
 
@@ -46,10 +55,13 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   The form builder.
    * @param \Drupal\lynx\Helper\QueryHelper $query_helper
    *   QueryHelper service.
+   * @param \Drupal\vsite\Plugin\AppManagerInterface $app_mananger
+   *   App manager.
    */
-  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper) {
+  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger) {
     $this->formBuilder = $form_builder;
     $this->queryHelper = $query_helper;
+    $this->appManager = $app_mananger;
   }
 
   /**
@@ -86,20 +98,42 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
 
     $result = [];
     $total = $response['hits']['total']['value'];
+    $bundles = [];
+    $publication_types = [];
+    if ($total > 0) {
+      $apps = $this->appManager->getDefinitions();
+      foreach ($apps as $id => $app) {
+        if (isset($app['bundle'])) {
+          foreach ($app['bundle'] as $bundle) {
+            $bundles[$bundle] = $app['title'];
+          }
+        }
+      }
+      $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
+    }
     foreach ($response['hits']['hits'] as $row) {
       $base_url = $indices[$row['_index']]['mappings']['_meta']['base_url'];
       $raw_url = explode(':', $row['_id'])[1];
       $url_params = explode('/', $raw_url);
       $url = Url::fromRoute('entity.' . $url_params[0] . '.canonical', [$url_params[0] => $url_params[1]])->toString();
       $vsite_url = '/group/' . current($row['_source']['custom_search_group']);
+      $content_type = current($row['_source']['custom_type']);
+      if (array_key_exists($content_type, $bundles)) {
+        $name = $bundles[$content_type];
+      }
+      elseif (array_key_exists($content_type, $publication_types)) {
+        $name = $publication_types[$content_type]->get('label');
+      }
+
       $result[] = [
         'title' => current($row['_source']['custom_title']),
-        'body' => current($row['_source']['body']),
+        'body' => isset($row['_source']['body']) ? current($row['_source']['body']) : '',
         'url' => $base_url . $url,
         'vsite_name' => current($row['_source']['vsite_name']),
         'vsite_logo' => current($row['_source']['vsite_logo']),
         'vsite_url' => $base_url . $vsite_url,
         'vsite_description' => current($row['_source']['vsite_description']),
+        'content_type' => $name,
       ];
     }
 
@@ -134,6 +168,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
         ],
         'vsite_description' => [
           '#markup' => '<div class="meta-description">' . $row['vsite_description'] . '</div>',
+        ],
+        'content_type' => [
+          '#markup' => '<div class="content-type">' . $row['content_type'] . '</div>',
         ],
         'title' => [
           '#prefix' => '<h2 class="node--title">',
