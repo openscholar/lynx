@@ -122,7 +122,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
         $name = $bundles[$content_type];
       }
       elseif (array_key_exists($content_type, $publication_types)) {
-        $name = $publication_types[$content_type]->get('label');
+        $name = 'Publications';
       }
 
       $result[] = [
