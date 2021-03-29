@@ -1,5 +1,14 @@
+/* variables */
+:root {
+  --color-red: #832129;
+  --color-blue: #1e3f8a;
+  --color-white: #fff;
+  --color-gray: #757575;
+  --color-black: #000;
+  --color-light-gray: #f0f0f0;
+}
+
 .search-lynx-form {
-  max-width: 300px;
   position: relative;
 }
 
@@ -12,87 +21,155 @@
 .search-lynx-form .form-actions button {
   margin-right: 0;
   border-radius: 0;
+  background: none;
+  border: 0;
+  align-items: center;
+  display: flex;
+  height: 3.4rem;
+  justify-content: center;
+  right: 0;
+  top: 0;
+  width: 3.5rem;
+}
+
+.search-lynx-form .form-actions button:before {
+  content: "";
+  background: url(../images/search.svg);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  display: block;
+  position: absolute;
+}
+
+.search-lynx-form .form-type-textfield {
+  border-bottom: 1px solid #e6e6e6;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
+  width: 100%;
+}
+
+.search-lynx-form .form-type-textfield input {
+  background: var(--color-white);
+  border-color: #e8e8e8 #fafafa;
+  border-style: solid;
+  border-width: 0 1px 2px;
+  color: #383838;
+  padding: 1rem 4rem 1rem 1.25rem;
+  width: 100%;
+  height: auto;
+}
+
+.search-lynx-form .form-type-textfield input:focus {
+  border-bottom-color: var(--color-red);
+  outline: 0;
+  box-shadow: none;
+}
+
+.path-lynx {
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.45;
+  color: var(--color-black);
+  font-size: 1rem;
+  background: var(--color-light-gray);
+}
+
+.path-lynx h1,
+.path-lynx h2,
+.path-lynx h3,
+.path-lynx h4,
+.path-lynx h5,
+.path-lynx h6 {
+  font-family: "Montserrat", sans-serif;
+}
+
+.path-lynx h1.page-title {
+  font-size: 2.25rem;
+  font-weight: 400;
 }
 
 .lynx-search-listing {
   padding: 0;
   margin: 0;
   list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
 }
 
 .lynx-search-listing li {
-  padding-bottom: 15px;
-  flex: 1 1 100%;
-  padding: 10px 25px;
-  border-radius: 10px;
-  box-shadow: 7px 5px 6px #d4d4d5, 0 0 0 1px #d4d4d5;
-  margin-bottom: 25px;
+  border-bottom: 1px solid #c9c9c9;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2.5rem;
 }
 
-.lynx-search-listing li p {
-  font-size: 12px;
-  margin-bottom: 0.5em;
-  word-break: break-all;
-}
-
-
-.lynx-search-listing li div {
-  margin-bottom: 0.5em;
-}
-
-
-.lynx-search-listing li img {
-  float: left;
-  margin-right: 15px;
-  margin-bottom: 20px;
-}
-
-a.lynx-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin: 5px 0;
-  display: inline;
-  color: #1e1e1e;
-}
-
-a.lynx-title:visited,
-a.lynx-title:hover {
-  color: #1e1e1e;
-}
-
-.lynx-search-listing li .node--title {
-  display: block;
-  width: 100%;
-  clear: both;
-}
-
-.lynx-search-listing .meta-description {
-  color: #4f4f4f;
+.lynx-search-listing .node--title a,
+.lynx-search-listing .node--title a:visited,
+.lynx-search-listing .node--title a:hover {
+  color: var(--color-red);
+  font-size: 1.75rem;
+  margin: 0 0 0.5rem 0;
 }
 
 .content-type {
-  background: #505d6d;
-  color: #fff;
-  padding: 1px 13px;
-  display: table;
-  clear: left;
+  color: var(--color-red);
+  margin-bottom: 0.5rem;
 }
 
-@media (min-width: 768px) {
-  .lynx-search-listing li {
-    flex: 0 0 31%;
-    margin-right: 25px;
-  }
-
-  .lynx-search-listing li:nth-child(3n) {
-    margin-right: 0;
-  }
+.lynx-title {
+  color: var(--color-blue);
+  margin-bottom: 0.5rem;
+  display: inline-block;
 }
+
+.lynx-search-listing .body {
+  margin: 0 0 1rem 0;
+}
+
+.lynx-search-listing a,
+.lynx-search-listing a:visited,
+.lynx-search-listing a:hover {
+  color: var(--color-blue);
+}
+
+.path-lynx .pager-nav {
+  text-align: left;
+}
+.path-lynx .pagination > li > a {
+  background-color: var(--color-white);
+  box-shadow: 0 1px 5px -3px rgb(0 0 0 / 56%);
+  color: var(--color-red);
+  display: inline-block;
+  font-size: 1.125rem;
+  margin-right: 0.25rem;
+  margin-left: 0;
+  padding: 0.25rem 0.75rem;
+  text-decoration: none;
+  transition: all 300ms ease-in-out;
+  border: 0;
+}
+
+.path-lynx .pagination > li > a:hover,
+.path-lynx .pagination > li > a:focus {
+  box-shadow: 0 1px 16px -2px rgb(0 0 0 / 18%);
+  color: #5a171c;
+}
+.path-lynx .pagination > li.active > a {
+  color: var(--color-gray);
+  font-size: 1.125rem;
+  margin-right: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  background: none;
+  box-shadow: none;
+}
+.path-lynx .pagination > li.active > a:hover {
+  background: none;
+  color: var(--color-gray);
+}
+.path-lynx .pagination > li > a span {
+  color: var(--color-red);
+}
+
 
 @media (min-width: 992px) {
-  .lynx-search-listing li {
-    margin-right: 35px;
+  .path-lynx h1.page-title {
+    font-size: 3rem;
   }
 }

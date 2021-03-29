@@ -180,7 +180,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#suffix' => '</h2>',
         ],
         'body' => [
-          '#markup' => '<div>' . Unicode::truncate($row['body'], 128, TRUE, TRUE) . '</div>',
+          '#markup' => '<div class="body">' . Unicode::truncate($row['body'], 128, TRUE, TRUE) . '</div>',
         ],
         'see_more' => [
           '#type' => 'link',
