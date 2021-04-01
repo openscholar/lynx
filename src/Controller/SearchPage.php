@@ -94,7 +94,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     ];
 
     // Build Search Form.
-    $build['search_listing']['search_form'] = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
+    $form = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
+    unset($form['title_text']);
+    $build['search_listing']['search_form'] = $form;
     $build['search_listing']['search_form']['keyword']['#value'] = $keyword;
 
     // Build Search Result.
@@ -115,6 +117,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     // Content type filter
     $current_request = $this->requestStack->getCurrentRequest();
     $type = $current_request->query->get('type');
+    $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
     // Todo check for publication type.
 
     if ($type) {
@@ -126,7 +129,6 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     $result = [];
     $total = $response['hits']['total']['value'];
     $bundles = [];
-    $publication_types = [];
     if ($total > 0) {
       $apps = $this->appManager->getDefinitions();
       foreach ($apps as $id => $app) {
@@ -136,7 +138,6 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           }
         }
       }
-      $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
     }
     foreach ($response['hits']['hits'] as $row) {
       $base_url = $indices[$row['_index']]['mappings']['_meta']['base_url'];

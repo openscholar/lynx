@@ -22,6 +22,9 @@ class SearchLynxForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    $form['title_text'] = [
+      '#markup' => '<div><h1>Search Thousands of Openscholar Websites</h1></div><div><p>Discover scholars, publications & research news</p></div>',
+    ];
     $form['keyword'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search'),
