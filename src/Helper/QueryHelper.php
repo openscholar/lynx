@@ -72,7 +72,12 @@ class QueryHelper implements QueryHelperInterface {
 
     if ($params['terms']) {
       foreach ($params['terms'] as $field => $value) {
-        $filter_values[]['term'][$field] = $value;
+        if (is_array($value)) {
+          $filter_values[]['terms'][$field] = $value;
+        }
+        else {
+          $filter_values[]['term'][$field] = $value;
+        }
       }
       $query['query']['bool']['filter'] = $filter_values;
     }
@@ -94,7 +99,6 @@ class QueryHelper implements QueryHelperInterface {
    * {@inheritdoc}
    */
   public function search($indices, $query) {
-
     try {
       $response = $this->client->search([
         'index' => $indices,
