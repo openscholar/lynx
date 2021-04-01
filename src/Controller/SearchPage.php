@@ -118,9 +118,11 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     $current_request = $this->requestStack->getCurrentRequest();
     $type = $current_request->query->get('type');
     $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
-    // Todo check for publication type.
 
     if ($type) {
+      if ($type == 'publications') {
+        $type = array_keys($publication_types);
+      }
       $params['terms']['custom_type'] = $type;
     }
 
