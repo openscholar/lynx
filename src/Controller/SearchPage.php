@@ -75,9 +75,16 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   \Drupal\Core\Render\RendererInterface::render().
    */
   public function render($keyword) {
+    $build['search_listing'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => 'lynx-listing-page',
+      ],
+    ];
+
     // Build Search Form.
-    $build['search_form'] = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
-    $build['search_form']['keyword']['#value'] = $keyword;
+    $build['search_listing']['search_form'] = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
+    $build['search_listing']['search_form']['keyword']['#value'] = $keyword;
 
     // Build Search Result.
     $page = pager_find_page();
@@ -138,8 +145,8 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     }
 
     pager_default_initialize($total, $num_per_page);
-    $build['result'] = $this->createRenderArray($result);
-    $build['result']['pager'] = ['#type' => 'pager'];
+    $build['search_listing']['result'] = $this->createRenderArray($result);
+    $build['search_listing']['result']['pager'] = ['#type' => 'pager'];
 
     return $build;
   }
