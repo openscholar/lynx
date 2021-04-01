@@ -10,6 +10,7 @@ use Drupal\lynx\Helper\QueryHelper;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\Unicode;
 use Drupal\vsite\Plugin\AppManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Controller for the Lynx search page.
@@ -38,13 +39,21 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
   protected $appManager;
 
   /**
+   * Request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $request_stack;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('form_builder'),
       $container->get('lynx.query_helper'),
-      $container->get('vsite.app.manager')
+      $container->get('vsite.app.manager'),
+      $container->get('request_stack')
     );
   }
 
@@ -58,10 +67,11 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    * @param \Drupal\vsite\Plugin\AppManagerInterface $app_mananger
    *   App manager.
    */
-  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger) {
+  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack) {
     $this->formBuilder = $form_builder;
     $this->queryHelper = $query_helper;
     $this->appManager = $app_mananger;
+    $this->requestStack = $request_stack;
   }
 
   /**
@@ -75,6 +85,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   \Drupal\Core\Render\RendererInterface::render().
    */
   public function render($keyword) {
+
     $build['search_listing'] = [
       '#type' => 'container',
       '#attributes' => [
@@ -100,9 +111,18 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       'from' => $from,
       'size' => $num_per_page,
     ];
+
+    // Content type filter
+    $current_request = $this->requestStack->getCurrentRequest();
+    $type = $current_request->query->get('type');
+    // Todo check for publication type.
+
+    if ($type) {
+      $params['terms']['custom_type'] = $type;
+    }
+
     $query = $this->queryHelper->buildQuery($params);
     $response = $this->queryHelper->search($indices_str, $query);
-
     $result = [];
     $total = $response['hits']['total']['value'];
     $bundles = [];
