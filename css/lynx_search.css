@@ -120,14 +120,6 @@
   display: none;
 }
 
-.path-lynx .lynx-listing-page .search-lynx-form .form-actions {
-  top: 7px;
-  right: 6px;
-  width: 100%;
-  height: calc(100% - 15px);
-  position: initial;
-}
-
 .path-lynx .search-lynx-form button:before {
   background: none;
   padding: 0;
@@ -147,12 +139,6 @@
 
 .search-lynx-form {
   position: relative;
-}
-
-.lynx-listing-page .search-lynx-form  .form-actions {
-  position: absolute;
-  top: 0;
-  right: 0;
 }
 
 .search-lynx-form .form-actions button {
@@ -181,6 +167,31 @@
   width: 100%;
 }
 
+/*** lynx listing page ***/
+.lynx-listing-page .search-lynx-form {
+  background: none;
+  height: auto;
+  display: block;
+  min-height: auto;
+  padding: 0;
+}
+.lynx-listing-page .search-lynx-form:before {
+  background: none;
+  position: initial;
+}
+
+.lynx-listing-page .search-lynx-form  .form-actions {
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  width: 3.5rem;
+  height: 3.5rem;
+}
+.path-lynx .lynx-listing-page .search-lynx-form .form-actions button{
+  background: none;
+  border-radius: 0;
+  padding: 0;
+}
 .lynx-listing-page .search-lynx-form .form-actions button:before {
   content: "";
   background: url(../images/search.svg);
@@ -196,6 +207,8 @@
   margin-bottom: 2.5rem;
   padding-bottom: 2.5rem;
   width: 100%;
+  border-radius: 0;
+  background: none;
 }
 
 .lynx-listing-page .search-lynx-form .form-type-textfield input {
@@ -208,12 +221,32 @@
   width: 100%;
   height: auto;
   margin: 0;
+  border-radius: 0;
 }
 
 .lynx-listing-page .search-lynx-form .form-type-textfield input:focus {
   border-bottom-color: var(--color-red);
   outline: 0;
   box-shadow: none;
+}
+
+.path-lynx .lynx-listing-page.form-group {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 77.5rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  margin-bottom: 3rem;
+}
+
+.lynx-listing-page .lynx-search-container {
+  padding: 0;
+  max-width: 100%;
+}
+
+.lynx-listing-page .search-lynx-form .form-type-textfield {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .path-lynx {
@@ -223,6 +256,8 @@
   font-size: 1rem;
   background: var(--color-light-gray);
 }
+
+
 
 .path-lynx h1,
 .path-lynx h2,
@@ -325,6 +360,9 @@
   .lynx-search-main {
     width: 66%;
   }
+  .lynx-listing-page .lynx-search-main {
+    width: 100%;
+  }
   .lynx-search-main h1 {
     font-size: 3.5rem;
     line-height: 1.2;
@@ -345,5 +383,8 @@
   }
   .search-lynx-form .form-actions button {
     border-radius: 0 30px 30px 0;
+  }
+  .lynx-listing-page .search-lynx-form .form-type-textfield {
+    border-radius: 0;
   }
 }
