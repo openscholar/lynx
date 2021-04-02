@@ -97,6 +97,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     $form = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
     unset($form['title_text']);
     $build['search_listing']['search_form'] = $form;
+    $build['search_listing']['search_form']['text']['#markup'] = t('<div class="lynx-search-text">Search</div>');
     $build['search_listing']['search_form']['keyword']['#value'] = $keyword;
 
     // Build Search Result.
