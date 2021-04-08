@@ -10,6 +10,7 @@ use Drupal\lynx\Helper\QueryHelper;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\Unicode;
 use Drupal\vsite\Plugin\AppManagerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Controller for the Lynx search page.
@@ -38,13 +39,21 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
   protected $appManager;
 
   /**
+   * Request stack.
+   *
+   * @var \Symfony\Component\HttpFoundation\RequestStack
+   */
+  protected $requestStack;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('form_builder'),
       $container->get('lynx.query_helper'),
-      $container->get('vsite.app.manager')
+      $container->get('vsite.app.manager'),
+      $container->get('request_stack')
     );
   }
 
@@ -57,11 +66,14 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   QueryHelper service.
    * @param \Drupal\vsite\Plugin\AppManagerInterface $app_mananger
    *   App manager.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
    */
-  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger) {
+  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack) {
     $this->formBuilder = $form_builder;
     $this->queryHelper = $query_helper;
     $this->appManager = $app_mananger;
+    $this->requestStack = $request_stack;
   }
 
   /**
@@ -75,9 +87,20 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   \Drupal\Core\Render\RendererInterface::render().
    */
   public function render($keyword) {
+
+    $build['search_listing'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => 'lynx-listing-page',
+      ],
+    ];
+
     // Build Search Form.
-    $build['search_form'] = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
-    $build['search_form']['keyword']['#value'] = $keyword;
+    $form = $this->formBuilder->getForm('Drupal\lynx\Form\SearchLynxForm');
+    unset($form['title_text']);
+    $build['search_listing']['search_form'] = $form;
+    $build['search_listing']['search_form']['text']['#markup'] = t('<div class="lynx-search-text">Search</div>');
+    $build['search_listing']['search_form']['keyword']['#value'] = $keyword;
 
     // Build Search Result.
     $page = pager_find_page();
@@ -93,23 +116,34 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       'from' => $from,
       'size' => $num_per_page,
     ];
+
+    // Content type filter.
+    $current_request = $this->requestStack->getCurrentRequest();
+    $types = $current_request->query->get('types');
+    $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
+
+    if ($types) {
+      $types = explode(',', $types);
+      if (in_array('publications', $types)) {
+        $types = array_merge($types, array_keys($publication_types));
+      }
+      $params['terms']['custom_type'] = $types;
+    }
+
     $query = $this->queryHelper->buildQuery($params);
     $response = $this->queryHelper->search($indices_str, $query);
-
     $result = [];
     $total = $response['hits']['total']['value'];
     $bundles = [];
-    $publication_types = [];
     if ($total > 0) {
       $apps = $this->appManager->getDefinitions();
-      foreach ($apps as $id => $app) {
+      foreach ($apps as $app) {
         if (isset($app['bundle'])) {
           foreach ($app['bundle'] as $bundle) {
             $bundles[$bundle] = $app['title'];
           }
         }
       }
-      $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
     }
     foreach ($response['hits']['hits'] as $row) {
       $base_url = $indices[$row['_index']]['mappings']['_meta']['base_url'];
@@ -138,8 +172,8 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     }
 
     pager_default_initialize($total, $num_per_page);
-    $build['result'] = $this->createRenderArray($result);
-    $build['result']['pager'] = ['#type' => 'pager'];
+    $build['search_listing']['result'] = $this->createRenderArray($result);
+    $build['search_listing']['result']['pager'] = ['#type' => 'pager'];
 
     return $build;
   }
@@ -180,7 +214,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
           '#suffix' => '</h2>',
         ],
         'body' => [
-          '#markup' => '<div>' . Unicode::truncate($row['body'], 128, TRUE, TRUE) . '</div>',
+          '#markup' => '<div class="body">' . Unicode::truncate($row['body'], 128, TRUE, TRUE) . '</div>',
         ],
         'see_more' => [
           '#type' => 'link',

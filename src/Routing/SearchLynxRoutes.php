@@ -51,11 +51,10 @@ class SearchLynxRoutes implements ContainerInjectionInterface {
     $routes = [];
     $settings = $this->configFactory->get('lynx.settings');
     $path = $settings->get('path');
-    $title = $settings->get('title');
     $permission = $settings->get('permission');
     $defaults = [
       '_form' => '\Drupal\lynx\Form\SearchLynxForm',
-      '_title' => $title,
+      '_title' => '',
     ];
     $requirements = [
       '_permission' => $permission,
@@ -65,7 +64,7 @@ class SearchLynxRoutes implements ContainerInjectionInterface {
     $path .= '/{keyword}';
     $defaults = [
       '_controller' => '\Drupal\lynx\Controller\SearchPage::render',
-      '_title' => $title,
+      '_title' => '',
     ];
     $requirements = [
       '_permission' => $permission,

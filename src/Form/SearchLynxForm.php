@@ -21,11 +21,19 @@ class SearchLynxForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-
+    $form['search_container'] = [
+      '#prefix' => '<div class="lynx-search-container"><div class="lynx-search-main">',
+    ];
+    $form['title_text'] = [
+      '#markup' => '<div><h1>Search Thousands of Openscholar Websites</h1></div><div><h2>Discover scholars, publications & research news</h2></div>',
+    ];
     $form['keyword'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Search'),
       '#title_display' => 'invisible',
+      '#attributes' => [
+        'placeholder' => $this->t('Enter your search terms'),
+      ],
       '#description' => $this->t('Enter the terms you wish to search for.'),
     ];
     $form['actions']['#type'] = 'actions';
@@ -33,6 +41,7 @@ class SearchLynxForm extends FormBase {
       '#type' => 'submit',
       '#value' => $this->t('Search'),
       '#button_type' => 'primary',
+      '#suffix' => '</div></div>',
     ];
     $form['#attached']['library'][] = 'lynx/lynx_search';
     return $form;
