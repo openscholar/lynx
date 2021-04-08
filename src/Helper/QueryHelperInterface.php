@@ -39,4 +39,15 @@ interface QueryHelperInterface {
    */
   public function search($indices, array $query);
 
+  /**
+   * Alter Index mapping properties.
+   *
+   * @param string $params
+   *   Index properties to be changed.
+   *
+   * @return array
+   *   Returns acknowledgement if its sucessfull.
+   */
+  public function putMapping($params);
+
 }

@@ -29,9 +29,9 @@ class SearchLynxForm extends FormBase {
       '#type' => 'textfield',
       '#title' => $this->t('Search'),
       '#title_display' => 'invisible',
-      '#attributes' => array(
-        'placeholder' => t('Enter your search terms'),
-      ),
+      '#attributes' => [
+        'placeholder' => $this->t('Enter your search terms'),
+      ],
       '#description' => $this->t('Enter the terms you wish to search for.'),
     ];
     $form['actions']['#type'] = 'actions';

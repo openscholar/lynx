@@ -1,0 +1,37 @@
+<?php
+
+/**
+ * @file
+ * Update hook for the lynx module.
+ */
+
+/**
+ * Change property for content type.
+ */
+function lynx_update_8901(&$sandbox) {
+
+  $lynx_query_helper = \Drupal::service("lynx.query_helper");
+  $indices = $lynx_query_helper->getAllowedIndices();
+  $params = [
+    'index' => $indices,
+    'body' => [
+      '_source' => [
+        'enabled' => TRUE,
+      ],
+      'properties' => [
+        'custom_type' => [
+          'type' => 'text',
+          "fielddata" => TRUE,
+        ],
+      ],
+    ],
+  ];
+  $response = $lynx_query_helper->putMapping($params);
+  if ($response['acknowledged']) {
+    $msg = t('Updated property for content type.');
+  }
+  else {
+    $msg = t('Failed to update property for content type.');
+  }
+  return $msg;
+}

@@ -81,6 +81,7 @@ class QueryHelper implements QueryHelperInterface {
       }
       $query['query']['bool']['filter'] = $filter_values;
     }
+    $query['aggs']['group_by_type']['terms'] = ['size' => 100, 'field' => 'custom_type'];
     $query['_source'] = [
       'custom_title',
       'body',
@@ -104,6 +105,19 @@ class QueryHelper implements QueryHelperInterface {
         'index' => $indices,
         'body' => $query,
       ])->getRawResponse();
+    }
+    catch (\Exception $e) {
+      watchdog_exception('Elasticsearch API', $e);
+    }
+    return $response;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function putMapping($params) {
+    try {
+      $response = $this->client->indices()->putMapping($params);
     }
     catch (\Exception $e) {
       watchdog_exception('Elasticsearch API', $e);

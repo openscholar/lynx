@@ -43,7 +43,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *
    * @var \Symfony\Component\HttpFoundation\RequestStack
    */
-  protected $request_stack;
+  protected $requestStack;
 
   /**
    * {@inheritdoc}
@@ -66,6 +66,8 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   QueryHelper service.
    * @param \Drupal\vsite\Plugin\AppManagerInterface $app_mananger
    *   App manager.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The request stack.
    */
   public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack) {
     $this->formBuilder = $form_builder;
@@ -114,16 +116,17 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       'size' => $num_per_page,
     ];
 
-    // Content type filter
+    // Content type filter.
     $current_request = $this->requestStack->getCurrentRequest();
-    $type = $current_request->query->get('type');
+    $types = $current_request->query->get('types');
     $publication_types = $this->entityTypeManager()->getStorage('bibcite_reference_type')->loadMultiple();
 
-    if ($type) {
-      if ($type == 'publications') {
-        $type = array_keys($publication_types);
+    if ($types) {
+      $types = explode(',', $types);
+      if (in_array('publications', $types)) {
+        $types = array_merge($types, array_keys($publication_types));
       }
-      $params['terms']['custom_type'] = $type;
+      $params['terms']['custom_type'] = $types;
     }
 
     $query = $this->queryHelper->buildQuery($params);
@@ -133,7 +136,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     $bundles = [];
     if ($total > 0) {
       $apps = $this->appManager->getDefinitions();
-      foreach ($apps as $id => $app) {
+      foreach ($apps as $app) {
         if (isset($app['bundle'])) {
           foreach ($app['bundle'] as $bundle) {
             $bundles[$bundle] = $app['title'];

@@ -51,7 +51,6 @@ class SearchLynxRoutes implements ContainerInjectionInterface {
     $routes = [];
     $settings = $this->configFactory->get('lynx.settings');
     $path = $settings->get('path');
-    $title = $settings->get('title');
     $permission = $settings->get('permission');
     $defaults = [
       '_form' => '\Drupal\lynx\Form\SearchLynxForm',
