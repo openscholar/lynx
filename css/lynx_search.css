@@ -67,7 +67,7 @@
 }
 
 .lynx-search-main h1 {
-  color: #fff;
+  color: var(--color-white);
   font-size: 1.75rem;
   font-weight: 700;
   line-height: 1.45;
@@ -95,7 +95,13 @@
 }
 
 .path-lynx .search-lynx-form:before {
-  background: linear-gradient(to right, #323232 20%, rgba(50, 50, 50, 0.95) 50%, rgba(50, 50, 50, 0.1) 80%, rgba(50, 50, 50, 0) 100%);
+  background: linear-gradient(
+    to right,
+    #323232 20%,
+    rgba(50, 50, 50, 0.95) 50%,
+    rgba(50, 50, 50, 0.1) 80%,
+    rgba(50, 50, 50, 0) 100%
+  );
   content: "";
   height: 100%;
   left: 0;
@@ -186,6 +192,15 @@
 }
 
 /*** lynx listing page ***/
+.path-lynx.sidebar-second .container {
+  max-width: 1240px;
+}
+
+.path-lynx.sidebar-second aside h3 {
+  color: var(--color-red);
+  font-size: 1.125rem;
+  margin-bottom: 2.5rem;
+}
 .lynx-listing-page .search-lynx-form {
   background: none;
   height: auto;
@@ -198,7 +213,7 @@
   position: initial;
 }
 
-.path-lynx .lynx-listing-page .search-lynx-form  .form-actions {
+.path-lynx .lynx-listing-page .search-lynx-form .form-actions {
   position: absolute;
   top: 55px;
   right: 10px;
@@ -206,7 +221,7 @@
   height: 3.5rem;
 }
 
-.path-lynx .lynx-listing-page .search-lynx-form .form-actions button{
+.path-lynx .lynx-listing-page .search-lynx-form .form-actions button {
   background: none;
   border-radius: 0;
   padding: 0;
@@ -263,7 +278,7 @@
   margin-left: auto;
   margin-right: auto;
   max-width: 77.5rem;
-  padding: 2.5rem 1.25rem;
+  padding: 2.5rem 0rem;
 }
 
 .lynx-listing-page .lynx-search-container {
@@ -362,7 +377,6 @@
   color: var(--color-red);
 }
 
-
 @media (min-width: 992px) {
   .path-lynx h1.page-title {
     font-size: 3rem;
@@ -378,7 +392,7 @@
     line-height: 1.2;
     margin-bottom: 1.25rem;
   }
-  
+
   .lynx-search-main h2 {
     font-size: 1.5rem;
   }
@@ -414,4 +428,68 @@
   .path-lynx .lynx-listing-page .search-lynx-form .form-actions {
     top: 6px;
   }
+  .path-lynx.sidebar-second aside.col-sm-3 {
+    margin-top: 9rem;
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+/***** sidebar filter *****/
+span.fieldset-legend {
+  color: var(--color-black);
+  font-size: 1.0625rem;
+  font-family: Montserrat, sans-serif;
+}
+
+fieldset legend {
+  margin-bottom: 0.2rem;
+}
+
+#filter-content-type-form label.control-label.option input {
+  outline: 0 none;
+  margin-left: -1.875rem;
+}
+
+#filter-content-type-form label.control-label.option {
+  cursor: pointer;
+  display: flex;
+  font-size: 1rem;
+  padding-left: 2rem;
+}
+#filter-content-type-form label.control-label.option input:before {
+  outline: 0.125rem solid transparent;
+  outline-offset: 0.125rem;
+  background: var(--color-white);
+  border: 1px solid #757575;
+  border-radius: 0;
+  content: " ";
+  display: inline-block;
+  flex-shrink: 0;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  margin-right: 0.5rem;
+  text-indent: 0.15em;
+  transition-duration: 200ms;
+  transition-property: background-color, border-color, box-shadow, color,
+    opacity, text-shadow, transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  width: 1.25rem;
+}
+#filter-content-type-form label.control-label.option input:checked:before {
+  background-image: url(../images/correct.svg);
+  background-color: var(--color-red);
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+}
+#filter-content-type-form label.control-label.option:hover {
+  color: var(--color-red);
+}
+#filter-content-type-form label.control-label.option input:focus:before {
+  outline-color: var(--color-red);
+}
+.path-lynx fieldset {
+  background: none;
+  border: 0 none;
 }
