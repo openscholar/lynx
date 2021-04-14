@@ -132,7 +132,6 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
         if (in_array('publications', $types)) {
           $types = array_merge($types, array_keys($publication_types));
         }
-        $params['terms']['custom_type'] = $types;
       }
 
       $query = $this->queryHelper->buildQuery($params);
