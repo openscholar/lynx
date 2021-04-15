@@ -428,13 +428,15 @@
   .path-lynx .lynx-listing-page .search-lynx-form .form-actions {
     top: 6px;
   }
+}
+
+@media (min-width: 768px) {
   .path-lynx.sidebar-second aside.col-sm-3 {
     margin-top: 9rem;
     position: sticky;
     top: 1rem;
   }
 }
-
 /***** sidebar filter *****/
 span.fieldset-legend {
   color: var(--color-black);
@@ -492,4 +494,21 @@ fieldset legend {
 .path-lynx fieldset {
   background: none;
   border: 0 none;
+}
+@media (max-width: 767px) {
+  .pager-nav .pagination>li {
+    margin-bottom: 0.3rem;
+    display: inline-block;
+  }
+  .pager-nav .pagination>li a {
+    margin-right: 0;
+  }
+  .path-lynx .lynx-listing-page.form-group {
+    padding-top: 0;
+  }
+  .path-lynx .main-container .row {
+    display: flex;
+    flex-direction: column-reverse;
+    margin-top: 2rem;
+  }
 }
