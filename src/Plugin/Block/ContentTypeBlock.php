@@ -144,6 +144,9 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
         $build['filter_form'] = $this->formBuilder->getForm('Drupal\lynx\Form\FilterContentTypeForm', $keyword, $types);
       }
     }
+    $build['#cache'] = [
+      'max-age' => 0,
+    ];
     return $build;
   }
 

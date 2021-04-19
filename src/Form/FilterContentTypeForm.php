@@ -9,6 +9,7 @@ use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\vsite\Plugin\AppManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Core\Url;
 
 /**
  * Implements filter content type form.
@@ -115,6 +116,13 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
         'onChange' => 'this.form.submit();',
       ],
     ];
+
+    $form['clear_all_filters'] = [
+      '#type' => 'link',
+      '#title' => $this->t('Clear all filter'),
+      '#url' => Url::fromRoute('lynx.search_page', ['keyword' => $keyword]),
+    ];
+
 
     $form['keyword'] = [
       '#type' => 'hidden',
