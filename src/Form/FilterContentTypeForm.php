@@ -119,7 +119,7 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
 
     $form['clear_all_filters'] = [
       '#type' => 'link',
-      '#title' => $this->t('Clear all filter'),
+      '#title' => $this->t('Clear all Filters'),
       '#url' => Url::fromRoute('lynx.search_page', ['keyword' => $keyword]),
     ];
 
