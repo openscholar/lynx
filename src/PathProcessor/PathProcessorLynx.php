@@ -59,6 +59,9 @@ class PathProcessorLynx implements InboundPathProcessorInterface, OutboundPathPr
    * {@inheritdoc}
    */
   public function processOutbound($path, &$options = [], Request $request = NULL, BubbleableMetadata $bubbleable_metadata = NULL) {
+    if (!$request && !array_key_exists('route', $options)) {
+      return $path;
+    }
     if ($this->lynxDomain && $request->getHttpHost() == $this->lynxDomain && strcmp($path, $this->lynxPath) == 0) {
       $path = '/';
     }
