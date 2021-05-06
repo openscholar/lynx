@@ -25,7 +25,7 @@ class SearchLynxForm extends FormBase {
       '#prefix' => '<div class="lynx-search-container"><div class="lynx-search-main">',
     ];
     $form['title_text'] = [
-      '#markup' => '<div><h1>Search Thousands of Openscholar Websites</h1></div><div><h2>Discover scholars, publications & research news</h2></div>',
+      '#markup' => '<div><h1>Search Thousands of OpenScholar Websites</h1></div><div><h2>Discover scholars, publications & research news</h2></div>',
     ];
     $form['keyword'] = [
       '#type' => 'textfield',
