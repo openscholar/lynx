@@ -540,9 +540,10 @@ fieldset legend {
 
 .path-lynx .lynx-logo {
   background: url(../images/lynx-white.png) no-repeat;
-  height: 150px;
-  width: 150px;
+  height: 215px;
+  width: 100%;
   margin-left: .625rem;
+  margin-bottom: 1.5rem;
 }
 
 .path-lynx .lynx-listing-page .lynx-logo {
