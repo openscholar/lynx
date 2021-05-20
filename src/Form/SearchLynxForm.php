@@ -22,7 +22,7 @@ class SearchLynxForm extends FormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['search_container'] = [
-      '#prefix' => '<div class="lynx-search-container"><div class="lynx-search-main">',
+      '#prefix' => '<div class="lynx-search-container"><div class="lynx-logo"></div><div class="lynx-search-main">',
     ];
     $form['title_text'] = [
       '#markup' => '<div><h1>Search Thousands of OpenScholar Websites</h1></div><div><h2>Discover scholars, publications & research news</h2></div>',
