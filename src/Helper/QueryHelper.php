@@ -83,6 +83,7 @@ class QueryHelper implements QueryHelperInterface {
     }
     $query['aggs']['group_by_type']['terms'] = ['size' => 100, 'field' => 'custom_type'];
     $query['_source'] = [
+      'lynx_title',
       'custom_title',
       'body',
       'vsite_logo',
