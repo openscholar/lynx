@@ -158,9 +158,8 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       elseif (array_key_exists($content_type, $publication_types)) {
         $name = 'Publications';
       }
-
       $result[] = [
-        'title' => current($row['_source']['custom_title']),
+        'title' => current($row['_source']['lynx_title']),
         'body' => isset($row['_source']['body']) ? current($row['_source']['body']) : '',
         'url' => $base_url . $url,
         'vsite_name' => current($row['_source']['vsite_name']),
