@@ -11,7 +11,7 @@ use Drupal\Core\Render\BubbleableMetadata;
 /**
  * Class PathProcessorLynx.
  */
-class PathProcessorLynx implements InboundPathProcessorInterface, OutboundPathProcessorInterface {
+class PathProcessorLynx implements OutboundPathProcessorInterface {
 
   /**
    * The configuration factory.
@@ -43,16 +43,6 @@ class PathProcessorLynx implements InboundPathProcessorInterface, OutboundPathPr
     $domain_settings = $this->config->get('lynx.domain.settings');
     $this->lynxPath = $lynx_settings->get('path');
     $this->lynxDomain = $domain_settings->get('lynx_domain');
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function processInbound($path, Request $request) {
-    if ($this->lynxDomain && $request->getHttpHost() == $this->lynxDomain && strpos($path, $this->lynxPath) !== 0) {
-      return $this->lynxPath;
-    }
-    return $path;
   }
 
   /**

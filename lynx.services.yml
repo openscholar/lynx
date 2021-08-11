@@ -6,5 +6,9 @@ services:
     class: Drupal\lynx\PathProcessor\PathProcessorLynx
     arguments: ['@config.factory']
     tags:
-      - { name: path_processor_inbound, priority: 300 }
       - { name: path_processor_outbound, priority: 300 }
+  lynx.request_subscriber:
+    class: Drupal\lynx\EventSubscriber\LynxRequestSubscriber
+    arguments: ['@config.factory']
+    tags:
+      - { name: event_subscriber }
