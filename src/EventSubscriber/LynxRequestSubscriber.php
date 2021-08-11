@@ -24,12 +24,10 @@ class LynxRequestSubscriber implements EventSubscriberInterface {
   /**
    * LynxRequestSubscriber constructor.
    *
-   * @param \Drupal\vsite\Plugin\VsiteContextManager $vsiteContextManager
-   *   VsiteContextManager instance.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config
    *   ConfigFactoryInterface instance.
    */
-  public function __construct(VsiteContextManager $vsiteContextManager, ConfigFactoryInterface $config) {
+  public function __construct(ConfigFactoryInterface $config) {
     $this->config = $config;
     $this->lynxPath = $this->config->get('lynx.settings')->get('path');
     $this->lynxDomain = $this->config->get('lynx.domain.settings')->get('lynx_domain');
