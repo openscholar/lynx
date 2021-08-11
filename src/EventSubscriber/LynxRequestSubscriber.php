@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\os\EventSubscriber;
+namespace Drupal\lynx\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\vsite\Plugin\VsiteContextManager;
