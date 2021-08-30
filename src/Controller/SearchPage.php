@@ -149,7 +149,14 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       $base_url = $indices[$row['_index']]['mappings']['_meta']['base_url'];
       $raw_url = explode(':', $row['_id'])[1];
       $url_params = explode('/', $raw_url);
-      $url = Url::fromRoute('entity.' . $url_params[0] . '.canonical', [$url_params[0] => $url_params[1]])->toString();
+
+      $url = '';
+      if ($url_params[0] == 'node') {
+        $url = "/node/{$url_params[1]}";
+      }
+      elseif ($url_params[0] == 'bibcite_reference') {
+        $url = "/bibcite/reference/{$url_params[1]}";
+      }
       $vsite_url = '/group/' . current($row['_source']['custom_search_group']);
       $content_type = current($row['_source']['custom_type']);
       if (array_key_exists($content_type, $bundles)) {
