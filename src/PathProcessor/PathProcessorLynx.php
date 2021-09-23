@@ -3,7 +3,6 @@
 namespace Drupal\lynx\PathProcessor;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\PathProcessor\InboundPathProcessorInterface;
 use Drupal\Core\PathProcessor\OutboundPathProcessorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Drupal\Core\Render\BubbleableMetadata;
