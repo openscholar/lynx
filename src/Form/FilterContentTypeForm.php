@@ -80,7 +80,7 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
     $apps = $this->appManager->getDefinitions();
     $publication_types = $this->entityTypeManager->getStorage('bibcite_reference_type')->loadMultiple();
     $publication_types = array_keys($publication_types);
-    // kint($publication_types);
+
     $bundles = [];
     foreach ($apps as $app) {
       if (isset($app['bundle'])) {
@@ -89,15 +89,24 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
         }
       }
     }
+    $bundles['person'] = 'Person/Name';
 
     $pub_count = 0;
+    $general_count = 0;
+    $general = ['page', 'faq', 'link'];
     foreach ($types as $type) {
       if (in_array($type['key'], $publication_types)) {
         $pub_count += $type['doc_count'];
       }
+      elseif (in_array($type['key'], $general)) {
+        $general_count += $type['doc_count'];
+      }
       else {
         $options[$type['key']] = $bundles[$type['key']] . ' (' . $type['doc_count'] . ')';
       }
+    }
+    if ($general_count > 0) {
+      $options['general'] = 'General (' . $general_count . ')';
     }
     if ($pub_count > 0) {
       $options['publications'] = 'Publications (' . $pub_count . ')';
@@ -122,7 +131,6 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
       '#title' => $this->t('Clear all Filters'),
       '#url' => Url::fromRoute('lynx.search_page', ['keyword' => $keyword]),
     ];
-
 
     $form['keyword'] = [
       '#type' => 'hidden',

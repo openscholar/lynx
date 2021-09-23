@@ -127,6 +127,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       if (in_array('publications', $types)) {
         $types = array_merge($types, array_keys($publication_types));
       }
+      if (in_array('general', $types)) {
+        $types = array_merge($types, ['page', 'faq', 'link']);
+      }
       $params['terms']['custom_type'] = $types;
     }
 
