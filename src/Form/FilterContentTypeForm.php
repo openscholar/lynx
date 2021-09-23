@@ -89,7 +89,7 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
         }
       }
     }
-    $bundles['person'] = 'Person/Name';
+    $bundles['person'] = $this->t('Person/Name');
 
     $pub_count = 0;
     $general_count = 0;
@@ -106,10 +106,10 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
       }
     }
     if ($general_count > 0) {
-      $options['general'] = 'General (' . $general_count . ')';
+      $options['general'] = $this->t('General (@general_count)', ['@general_count' => $general_count]);
     }
     if ($pub_count > 0) {
-      $options['publications'] = 'Publications (' . $pub_count . ')';
+      $options['publications'] = $this->t('Publications (@pub_count)', ['@pub_count' => $pub_count]);
     }
 
     $current_request = $this->requestStack->getCurrentRequest();
