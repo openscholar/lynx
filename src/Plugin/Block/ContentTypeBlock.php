@@ -10,6 +10,7 @@ use Drupal\vsite\Plugin\AppManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
+use Drupal\Core\Pager\PagerParametersInterface;
 
 /**
  * Provides a block for Lynx content type filter.
@@ -57,6 +58,13 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
   protected $entityTypeManager;
 
   /**
+   * Pager Parameters.
+   *
+   * @var \Drupal\Core\Pager\PagerParametersInterface
+   */
+  protected $pagerParameters;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
@@ -68,7 +76,8 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
       $container->get('vsite.app.manager'),
       $container->get('request_stack'),
       $container->get('entity_type.manager'),
-      $container->get('form_builder')
+      $container->get('form_builder'),
+      $container->get('pager.parameters')
     );
   }
 
@@ -91,14 +100,17 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
    *   The entity type manager.
    * @param \Drupal\Core\Form\FormBuilderInterface $form_builder
    *   The form builder.
+   * @param \Drupal\Core\Pager\PagerParametersInterface
+   *   Pager service.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, FormBuilderInterface $form_builder) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack, EntityTypeManagerInterface $entity_type_manager, FormBuilderInterface $form_builder, PagerParametersInterface $pager_parameters) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->queryHelper = $query_helper;
     $this->appManager = $app_mananger;
     $this->requestStack = $request_stack;
     $this->entityTypeManager = $entity_type_manager;
     $this->formBuilder = $form_builder;
+    $this->pagerParameters = $pager_parameters;
   }
 
   /**
@@ -109,7 +121,7 @@ class ContentTypeBlock extends BlockBase implements ContainerFactoryPluginInterf
     $build = [];
     $keyword = $current_request->attributes->get('keyword');
     if ($keyword) {
-      $page = pager_find_page();
+      $page = $this->pagerParameters->findPage();
       $num_per_page = 9;
       $from = $page * $num_per_page;
       $indices = $this->queryHelper->getAllowedIndices();
