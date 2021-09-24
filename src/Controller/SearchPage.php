@@ -9,6 +9,8 @@ use Drupal\Core\Form\FormBuilderInterface;
 use Drupal\lynx\Helper\QueryHelper;
 use Drupal\Core\Url;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\Pager\PagerManagerInterface;
+use Drupal\Core\Pager\PagerParametersInterface;
 use Drupal\vsite\Plugin\AppManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -46,6 +48,20 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
   protected $requestStack;
 
   /**
+   * Pager Parameters.
+   *
+   * @var \Drupal\Core\Pager\PagerParametersInterface
+   */
+  protected $pagerParameters;
+
+  /**
+   * Pager Manager.
+   *
+   * @var \Drupal\Core\Pager\PagerManagerInterface
+   */
+  protected $pagerManager;
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
@@ -53,7 +69,9 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       $container->get('form_builder'),
       $container->get('lynx.query_helper'),
       $container->get('vsite.app.manager'),
-      $container->get('request_stack')
+      $container->get('request_stack'),
+      $container->get('pager.parameters'),
+      $container->get('pager.manager')
     );
   }
 
@@ -68,12 +86,18 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
    *   App manager.
    * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
    *   The request stack.
+   * @param \Drupal\Core\Pager\PagerParametersInterface
+   *   Pager service.
+   * @param \Drupal\Core\Pager\PagerManagerInterface
+   *   Pager Manager.
    */
-  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack) {
+  public function __construct(FormBuilderInterface $form_builder, QueryHelper $query_helper, AppManagerInterface $app_mananger, RequestStack $request_stack, PagerParametersInterface $pager_parameters, PagerManagerInterface $pager_manager) {
     $this->formBuilder = $form_builder;
     $this->queryHelper = $query_helper;
     $this->appManager = $app_mananger;
     $this->requestStack = $request_stack;
+    $this->pagerParameters = $pager_parameters;
+    $this->pagerManager = $pager_manager;
   }
 
   /**
@@ -103,7 +127,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
     $build['search_listing']['search_form']['keyword']['#value'] = $keyword;
 
     // Build Search Result.
-    $page = pager_find_page();
+    $page = $this->pagerParameters->findPage();
     $num_per_page = 9;
     $from = $page * $num_per_page;
     $indices = $this->queryHelper->getAllowedIndices();
@@ -180,7 +204,7 @@ class SearchPage extends ControllerBase implements ContainerInjectionInterface {
       ];
     }
 
-    pager_default_initialize($total, $num_per_page);
+    $this->pagerManager->createPager($total, $num_per_page);
     $build['search_listing']['result'] = $this->createRenderArray($result);
     $build['search_listing']['result']['pager'] = ['#type' => 'pager'];
 
