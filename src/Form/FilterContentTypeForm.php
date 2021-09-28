@@ -106,7 +106,8 @@ class FilterContentTypeForm extends FormBase implements ContainerInjectionInterf
       }
     }
     if ($general_count > 0) {
-      $options['general'] = $this->t('General (@general_count)', ['@general_count' => $general_count]);
+      $general = ['general' => $this->t('General (@general_count)', ['@general_count' => $general_count])];
+      $options = $general + $options;
     }
     if ($pub_count > 0) {
       $options['publications'] = $this->t('Publications (@pub_count)', ['@pub_count' => $pub_count]);
