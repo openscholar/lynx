@@ -3,8 +3,8 @@
 namespace Drupal\lynx\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
@@ -35,10 +35,10 @@ class LynxRequestSubscriber implements EventSubscriberInterface {
   /**
    * Performs an internal redirect to lynx search page.
    *
-   * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+   * @param \Symfony\Component\HttpKernel\Event\RequestEvent $event
    *   The Event to process.
    */
-  public function onKernelRequestLynx(GetResponseEvent $event) {
+  public function onKernelRequestLynx(RequestEvent $event) {
     $request = $event->getRequest();
     $host = $request->getHttpHost();
     $uri = $request->getPathInfo();
