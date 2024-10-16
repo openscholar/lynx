@@ -3,6 +3,7 @@
 namespace Drupal\lynx\EventSubscriber;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Site\Settings;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -42,6 +43,12 @@ class LynxRequestSubscriber implements EventSubscriberInterface {
     $request = $event->getRequest();
     $host = $request->getHttpHost();
     $uri = $request->getPathInfo();
+
+    // If we are requesting a "files" path don't forward requests to /lynx
+    $public_base_url_path = parse_url(Settings::get('file_public_base_url', ''), PHP_URL_PATH);
+    if ($public_base_url_path && strpos($uri, $public_base_url_path) === 0) {
+      return;
+    }
 
     if ($this->lynxDomain && $host == $this->lynxDomain && strpos($uri, $this->lynxPath) !== 0) {
       $newrequest = $request->duplicate();
